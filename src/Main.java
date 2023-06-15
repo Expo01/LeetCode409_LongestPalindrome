@@ -69,9 +69,8 @@ class Solution {
            counter++;//fluff
             System.out.println("is v " + v);//fluff
             System.out.println("is ans 1 = " + ans);
-            ans += v/2 *2; // what the heck am i not understanding about order of operations here?
-            // on the first occurence where v=1 and ans = 0 --> ans += 1/2 * 2. Is this not 0.5 * 2 = 1?
-            // how is it 0? what's the point?
+            ans += v/2 *2; // order of operations. divison comes after multiplication. this is
+            // 'v / (2*2)' not '(v/2) * 2'. so on first iteration v  where v = 1, ans = 0, " 1/ (2*2) = .25 = 0 as an int value
             System.out.println("is ans 2 = " + ans);//fluff
             if(ans%2 == 0 && v%2 == 1){
                 ans++;
