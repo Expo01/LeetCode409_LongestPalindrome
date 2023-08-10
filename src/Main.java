@@ -3,9 +3,40 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
+int test = 2;
+int test2= 2;
+int ans = test/3 + test2/3; //here is an example that temporary doubles cannot bee stored in calculation
+        int test3 = 1;
+        int ans2 = test3 * .99 + test3 * .99; // doubles can also not be used in calculation. if you want an integer
+        // result from non-truncated variable values, use doubles then math.round.
+        System.out.println(ans);
+//        String test = "bccddddef";
+//        System.out.println(new Solution().longestPalindrome(test));
+    }
+}
 
-        String test = "bccddddef";
-        System.out.println(new Solution().longestPalindrome(test));
+
+class Solution {
+    public int longestPalindrome(String s) {
+        //ASCII 'A' to 'Z' :65 to 90
+        //ASCII 'a' to 'z' :97 to 122
+        int[] count = new int[128];
+        int lpp = 0;
+
+        for(char c: s.toCharArray()){
+            if(count[c]==0){
+                count[c]++;
+            } else{
+                count[c]--;
+                lpp+=2;
+            }
+        }
+
+        if(s.length() > lpp){
+            lpp++;
+        }
+
+        return lpp;
     }
 }
 
@@ -53,46 +84,35 @@ public class Main {
 
 
 // LESS INUITIVE BUT BEST RUNTIME WITH BEATING 100% IN TIME EFFICIENCY
-class Solution {
-    public int longestPalindrome(String s) {
-        //ASCII 'A' to 'Z' :65 to 90
-        //ASCII 'a' to 'z' :97 to 122
-        int counter = 0;//fluff
-        int[] count = new int[128]; // there aare 128 ASCII characters from 0-127. this ensures that the ASCII characteer
-        // is at the approprraite index. example: ASCII A = 65 starts so it will appear at index 65
-        for(char c: s.toCharArray()){
-            count[c]++; // char is used as the index instead of the value and it increments the value at th char index
-            // for example, count['b'] = 0. then count['b']++ meeans that count[b] = 1;
-        }
-        int ans = 0; // this counts the longest palindrome possible
-        for(int v: count){ // for each char index in the array
-           counter++;//fluff
-            System.out.println("is v " + v);//fluff
-            System.out.println("is ans 1 = " + ans);
-            ans += v/2 *2; // order of operations. divison comes after multiplication. this is
-            // 'v / (2*2)' not '(v/2) * 2'. so on first iteration v  where v = 1, ans = 0, " 1/ (2*2) = .25 = 0 as an int value
-            System.out.println("is ans 2 = " + ans);//fluff
-            if(ans%2 == 0 && v%2 == 1){
-                ans++;
-                System.out.println("is ans 3 = " + ans);//fluff
-            }
-            System.out.println(counter);
-            // using 'bccdddd' as an example
-                // v is the value (frequency) at char index
-                // b is at ASCII 98 v = 1, ans = 1. for some reason line 72 calculates that 1/2 *2 = 0. wtf.
-                    // then line 74 says ok v%2 = 1, then ans++ = 1
-                // c is at ASCII 99 v = 2, ans = 3.
-                    //this time, line 72 executees (2/2 * 2 = 2) so ans = 2+1 = 3
-                // d is at ASCII 100 v = 4, ans = 7
-                    // line 72 executes again ans+= (4/2 * 2 = 4) so ans = 3+4 = 7
-                // all other ASCII values empty, v = 0, ans = 7
-                // it appears that line 74 can only execute once where ans can be incremented by 1
-                // only if ans is currently even and the char index has an odd frequency value such that
-                // an occurence of 3 for the char 'b' would ans += 2, then because ans is divisible by 2
-                // and the frequency is odd at char 'b', this one time execution happens
-        }
-        return ans;
-    }
-}
+//class Solution {
+//    public int longestPalindrome(String s) {
+//        //ASCII 'A' to 'Z' :65 to 90
+//        //ASCII 'a' to 'z' :97 to 122
+//        int[] count = new int[128]; // there aare 128 ASCII characters from 0-127. this ensures that the ASCII characteer
+//        // is at the approprraite index. example: ASCII A = 65 so it will appear at index 65
+//        for(char c: s.toCharArray()){
+//            count[c]++; // ASCII value of the char indicates its corresponding index and increments it.
+//        }
+//        int ans = 0; // this counts the longest palindrome possible
+//        for(int v: count){ // for each char index in the array, v = the frequency/value at that char's index
+//            int pairs = v/2; // temp variable for clarity, an odd frequency reduced into its whole numbers pairs
+//            ans += pairs * 2; // pairs multiplied by 2 to get componenenets. may leave 1 extraneous value
+//            // example 5/2 = 2. --> 2* 2 = 4;  remainder of one
+//            if(ans%2 == 0 && v%2 == 1){ // if the ans is divisible by 2, then no unpaired frequencies yet added
+//                // if 5 is odd, then increment value by 1. this will only work once since henceforth, ans%2 != 0
+//                ans++;
+//                // all pair values will be added on subsequent loops with this if statement always false
+//            }
+//        }
+//        return ans;
+//    }
+//}
+
+// using 'bccdddd' as an example
+// v is the value (frequency) at char index
+// b is at ASCII 98 v = 1, ans = 1. for some reason line 72 calculates that 1/2 *2 = 0. wtf.
+// then line 74 says ok v%2 = 1, then ans++ = 1
+// c is at ASCII 99 v = 2, ans = 3.
+//this time, line 72 executees (2/2 * 2 = 2) so ans = 2+1 = 3
 
 
